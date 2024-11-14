@@ -293,7 +293,7 @@
         <!-- Dot Indicators -->
         <div class="dots">
             <span class="dot" onclick="scrollToSlide(0)"></span>
-            <span class="dot" onclick="scrollToSlide(1)"></span>
+            <span class="dot" onclick="scrollToSlide(1)"></span> 
             <span class="dot" onclick="scrollToSlide(2)"></span>
             <span class="dot" onclick="scrollToSlide(3)"></span>
             <span class="dot" onclick="scrollToSlide(4)"></span>
