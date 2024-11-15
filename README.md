@@ -293,7 +293,7 @@
         <!-- Dot Indicators -->
         <div class="dots">
             <span class="dot" onclick="scrollToSlide(0)"></span>
-            <span class="dot" onclick="scrollToSlide(1)"></span> 
+            <span class="dot" onclick="scrollToSlide(1)"></span>
             <span class="dot" onclick="scrollToSlide(2)"></span>
             <span class="dot" onclick="scrollToSlide(3)"></span>
             <span class="dot" onclick="scrollToSlide(4)"></span>
@@ -382,6 +382,76 @@
             document.getElementById("portfolio-title").textContent = isEnglish ? "Portafolio" : "Portfolio";
             document.getElementById("contact-title").textContent = isEnglish ? "Contacto" : "Contact";
         });
-    </script>
+    </script> <script>
+    function isMobileDevice() {
+        return /Mobi|Android/i.test(navigator.userAgent);
+    }
+
+    if (isMobileDevice()) {
+        document.body.innerHTML = `
+            <!-- Mobile HTML Code -->
+            <div class="toggle-buttons">
+                <button id="theme-toggle">🌙</button>
+                <h1 id="site-title">Lina Lupita Arts</h1>
+                <button id="language-toggle">Español</button>
+            </div>
+
+            <div class="container">
+                <div class="header-links">
+                    <a onclick="scrollToSlide(1)" id="link-project-management">Project Management</a>
+                    <a onclick="scrollToSlide(2)" id="link-curation">Curation</a>
+                    <a onclick="scrollToSlide(3)" id="link-consulting">Consulting</a>
+                    <a onclick="scrollToSlide(4)" id="link-commissions">Commissions</a>
+                </div>
+
+                <!-- Slides container -->
+                <div class="slides" id="slides">
+                    <section class="slide">
+                        <h2 id="mission-title">Mission Statement</h2>
+                        <p id="mission">To foster arts and arts-related programming in the Southeast Los Angeles Community and beyond...</p>
+                        <img src="https://i.ibb.co/1M0sT3m/mission.png" alt="Mission Statement Image" style="max-width:50%; margin:0 auto;">
+                    </section>
+                    <section class="slide" onclick="openGallery('https://i.ibb.co/9Z6d1BD/manage.png')">
+                        <h2 id="slide1-title">Seamless Art Project Management</h2>
+                        <p id="slide1-content">Our team offers complete project management services for arts projects, ensuring they are executed within planned timeframes and budgets.</p>
+                        <img src="https://i.ibb.co/9Z6d1BD/manage.png" alt="Project Management Image" style="max-width:50%; margin:0 auto;">
+                    </section>
+                    <!-- Add additional slides as necessary -->
+                </div>
+
+                <!-- Learn More Section -->
+                <div class="learn-more-section">
+                    <h2 id="learn-more-title">Learn More</h2>
+                    <button class="button" onclick="window.open('https://dribbble.com/linaxlupita')" id="learn-more-dribbble">Dribbble</button>
+                    <button class="button" onclick="window.open('https://behance.net/linaxlupita')" id="learn-more-behance">Behance</button>
+                    <button class="button" onclick="location.href='mailto:eglop23@gmail.com'" id="learn-more-email">Email Me</button>
+                    <button class="button" onclick="window.open('https://www.linkedin.com/in/edlin-hoglund-lopez-094736198/')" id="learn-more-linkedin">LinkedIn</button>
+                    <button class="button" onclick="window.open('https://www.instagram.com/lina_lupita/')" id="learn-more-instagram">Instagram</button>
+                </div>
+            </div>
+
+            <footer>&copy; 2024 Lina Lupita Arts, LLC</footer>
+            
+            <!-- Insert JavaScript code for mobile version functions -->
+        `;
+
+        // Additional JavaScript to handle theme and language toggle
+        const themeToggleButton = document.getElementById("theme-toggle");
+        themeToggleButton.addEventListener("click", () => {
+            document.body.classList.toggle("light-theme");
+            document.body.classList.toggle("dark-theme");
+            themeToggleButton.textContent = document.body.classList.contains("dark-theme") ? "☀️" : "🌙";
+        });
+
+        const languageToggleButton = document.getElementById("language-toggle");
+        languageToggleButton.addEventListener("click", () => {
+            const isEnglish = languageToggleButton.textContent === "Español";
+            languageToggleButton.textContent = isEnglish ? "English" : "Español";
+            document.getElementById("site-title").textContent = isEnglish ? "Artes de Lina Lupita" : "Lina Lupita Arts";
+            document.getElementById("learn-more-title").textContent = isEnglish ? "Más Información" : "Learn More";
+        });
+    }
+</script>
+
 </body>
 </html>
