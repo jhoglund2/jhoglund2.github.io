@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0, orientation=portrait">
+    <title>Lina Lupita Arts</title>
+    <style>
+        /* Base styling and themes */
+        :root {
+            --background-light: #f5f0e6;
+            --text-light: #3b3b3b;
+            --accent-color: #b16a58;
+            --secondary-accent: #476a6f;
+            --background-dark: #2d2a26;
+            --text-dark: #e6dcc8;
+            --highlight-dark: #d4a276;
+        }
+
+        .light-theme {
+            --background-color: var(--background-light);
+            --text-color: var(--text-light);
+            --accent-color: var(--accent-color);
+            --highlight-color: var(--text-light);
+        }
+
+        .dark-theme {
+            --background-color: var(--background-dark);
+            --text-color: var(--text-dark);
+            --accent-color: var(--highlight-dark);
+            --highlight-color: var(--highlight-dark);
+        }
+
+        body {
+            font-family: 'Roboto Slab', serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+
+        /* Mobile-specific styles */
+        @media (max-width: 768px) {
+            .toggle-buttons {
+                display: flex;
+                justify-content: space-around;
+                width: 100%;
+                position: fixed;
+                top: 0.5rem;
+            }
+            #site-title {
+                font-size: 1.5rem;
+                margin-top: 1rem;
+            }
+
+            .container {
+                box-shadow: none;
+                padding-top: 1rem;
+                margin-top: 3rem;
+            }
+
+            .button, .header-links a {
+                font-size: 0.8rem;
+                padding: 0.5rem;
+            }
+
+            .slide img {
+                max-width: 50%; /* Smaller and more centered image */
+                margin: 0 auto;
+            }
+        }
+
+        /* Container */
+        .container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            border-radius: 12px;
+            padding-top: 2rem;
+            margin-top: 3rem;
+        }
+
+        /* Header */
+        .header h1 {
+            font-size: 2rem;
+            font-family: 'Futura', sans-serif;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        /* Toggle buttons */
+        .toggle-buttons button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: inherit;
+        }
+
+        /* Header Links */
+        .header-links {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .header-links a {
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+            padding: 0.3rem 0.6rem;
+            font-family: 'Futura', sans-serif;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            transition: color 0.3s, background-color 0.3s, padding 0.3s;
+            border-radius: 5px;
+        }
+        .header-links a.active {
+            background-color: var(--accent-color);
+            color: #fff;
+            padding: 0.5rem 1rem;
+        }
+
+        /* Slides container */
+        .slides {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            width: 100%;
+            scrollbar-width: none;
+            scroll-behavior: smooth;
+        }
+        .slides::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Slide */
+        .slide {
+            flex: 0 0 100%;
+            min-width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            cursor: pointer;
+        }
+        .slide h2 {
+            font-size: 1.8rem;
+            font-family: 'Futura', sans-serif;
+            color: var(--accent-color);
+            margin: 0.5rem 0;
+        }
+        .slide p {
+            line-height: 1.6;
+            max-width: 600px;
+            font-size: 1rem;
+        }
+        .slide img {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            margin: 0 auto;
+        }
+
+        /* Learn More Section */
+        .learn-more-section {
+            padding: 2rem;
+        }
+        .button {
+            padding: 0.5rem 1.5rem;
+            font-family: 'Futura', sans-serif;
+            border: 1px solid var(--text-color);
+            border-radius: 8px;
+            cursor: pointer;
+            background: none;
+            color: var(--text-color);
+            margin: 0.5rem;
+            display: inline-block;
+            width: 100%;
+        }
+        .button:hover {
+            background-color: var(--secondary-accent);
+            color: #fff;
+        }
+
+        #gallery-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        #gallery-modal img {
+            max-width: 90%;
+            max-height: 90%;
+        }
+        #gallery-modal button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5rem;
+            background: none;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        footer {
+            font-size: 0.8rem;
+            padding: 1rem;
+            color: var(--text-color);
+            text-align: center;
+            width: 100%;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body class="light-theme">
+    <!-- Toggle Buttons with Site Title in Center -->
+    <div class="toggle-buttons">
+        <button id="theme-toggle">🌙</button>
+        <h1 id="site-title" onclick="scrollToSlide(0)">Lina Lupita Arts</h1>
+        <button id="language-toggle">Español</button>
+    </div>
+
+    <div class="container">
+        <div class="header-links">
+            <a onclick="scrollToSlide(1)" id="link-project-management">Project Management</a>
+            <a onclick="scrollToSlide(2)" id="link-curation">Curation</a>
+            <a onclick="scrollToSlide(3)" id="link-consulting">Consulting</a>
+            <a onclick="scrollToSlide(4)" id="link-commissions">Commissions</a>
+        </div>
+
+        <!-- Slides container -->
+        <div class="slides" id="slides">
+            <section class="slide">
+                <h2 id="mission-title">Mission Statement</h2>
+                <p id="mission">To foster arts and arts-related programming in the Southeast Los Angeles Community and beyond...</p>
+                <img src="https://i.ibb.co/1M0sT3m/mission.png" alt="Mission Statement Image">
+            </section>
+            <section class="slide" onclick="openGallery('https://i.ibb.co/9Z6d1BD/manage.png')">
+                <h2 id="slide1-title">Seamless Art Project Management</h2>
+                <p id="slide1-content">Our team offers complete project management services for arts projects, ensuring they are executed within planned timeframes and budgets.</p>
+                <img src="https://i.ibb.co/9Z6d1BD/manage.png" alt="Project Management Image">
+            </section>
+            <section class="slide" onclick="openGallery('https://i.ibb.co/jGk9Zkr/curate.png')">
+                <h2 id="slide2-title">Curating Experiences That Connect</h2>
+                <p id="slide2-content">Our curated exhibitions reflect the voices of local communities, working with artists to bring diverse voices to the forefront.</p>
+                <img src="https://i.ibb.co/jGk9Zkr/curate.png" alt="Curating Experiences Image">
+            </section>
+            <section class="slide" onclick="openGallery('https://i.ibb.co/V3n3zQ7/consult.png')">
+                <h2 id="slide3-title">Empowering Your Vision Through Art</h2>
+                <p id="slide3-content">We provide consulting services to organizations looking to make a meaningful impact through the arts.</p>
+                <img src="https://i.ibb.co/V3n3zQ7/consult.png" alt="Consulting Image">
+            </section>
+            <section class="slide" onclick="openGallery('https://i.ibb.co/LP5jBgq/art.png')">
+                <h2 id="slide4-title">Custom Art Creations for Every Community</h2>
+                <p id="slide4-content">Led by Edlin G. Lopez, our commissions span various artistic forms, focusing on accessibility and community representation.</p>
+                <img src="https://i.ibb.co/LP5jBgq/art.png" alt="Art Commissions Image">
+            </section>
+        </div>
+
+        <!-- Gallery Modal -->
+        <div id="gallery-modal" onclick="closeGallery()">
+            <button onclick="closeGallery()">✖</button>
+            <img id="gallery-image" src="" alt="Gallery Image">
+        </div>
+
+        <!-- Learn More Section -->
+        <div class="learn-more-section">
+            <h2 id="learn-more-title">Learn More</h2>
+            <button class="button" onclick="window.open('https://dribbble.com/linaxlupita')" id="learn-more-dribbble">Dribbble</button>
+            <button class="button" onclick="window.open('https://behance.net/linaxlupita')" id="learn-more-behance">Behance</button>
+            <button class="button" onclick="location.href='mailto:eglop23@gmail.com'" id="learn-more-email">Email Me</button>
+            <button class="button" onclick="window.open('https://www.linkedin.com/in/edlin-hoglund-lopez-094736198/')" id="learn-more-linkedin">LinkedIn</button>
+            <button class="button" onclick="window.open('https://www.instagram.com/lina_lupita/')" id="learn-more-instagram">Instagram</button>
+        </div>
+    </div>
+
+    <footer>&copy; 2024 Lina Lupita Arts, LLC</footer>
+
+    <script>
+        const themeToggleButton = document.getElementById("theme-toggle");
+        themeToggleButton.addEventListener("click", () => {
+            document.body.classList.toggle("light-theme");
+            document.body.classList.toggle("dark-theme");
+            themeToggleButton.textContent = document.body.classList.contains("dark-theme") ? "☀️" : "🌙";
+        });
+
+        const languageToggleButton = document.getElementById("language-toggle");
+        languageToggleButton.addEventListener("click", () => {
+            const isEnglish = languageToggleButton.textContent === "Español";
+            languageToggleButton.textContent = isEnglish ? "English" : "Español";
+            document.getElementById("site-title").textContent = isEnglish ? "Artes de Lina Lupita" : "Lina Lupita Arts";
+            document.getElementById("link-project-management").textContent = isEnglish ? "Gestión de Proyectos" : "Project Management";
+            document.getElementById("link-curation").textContent = isEnglish ? "Curaduría" : "Curation";
+            document.getElementById("link-consulting").textContent = isEnglish ? "Consultoría" : "Consulting";
+            document.getElementById("link-commissions").textContent = isEnglish ? "Comisiones" : "Commissions";
+            document.getElementById("mission-title").textContent = isEnglish ? "Declaración de Misión" : "Mission Statement";
+            document.getElementById("mission").textContent = isEnglish
+                ? "Fomentar las artes y la programación en la comunidad del sureste de Los Ángeles y más allá..."
+                : "To foster arts and arts-related programming in the Southeast Los Angeles Community and beyond...";
+            document.getElementById("slide1-title").textContent = isEnglish ? "Gestión de Proyectos de Arte sin Complicaciones" : "Seamless Art Project Management";
+            document.getElementById("slide1-content").textContent = isEnglish ? "Nuestro equipo ofrece servicios completos de gestión de proyectos artísticos, asegurando que se ejecuten dentro de los plazos y presupuestos planificados." : "Our team offers complete project management services for arts projects, ensuring they are executed within planned timeframes and budgets.";
+            document.getElementById("slide2-title").textContent = isEnglish ? "Curación de Experiencias que Conectan" : "Curating Experiences That Connect";
+            document.getElementById("slide2-content").textContent = isEnglish ? "Nuestras exposiciones curadas reflejan las voces de las comunidades locales. Trabajamos con artistas para destacar voces diversas." : "Our curated exhibitions reflect the voices of local communities, working with artists to bring diverse voices to the forefront.";
+            document.getElementById("slide3-title").textContent = isEnglish ? "Empoderando su Visión a Través del Arte" : "Empowering Your Vision Through Art";
+            document.getElementById("slide3-content").textContent = isEnglish ? "Proveemos servicios de consultoría a organizaciones que buscan un impacto significativo a través del arte." : "We provide consulting services to organizations looking to make a meaningful impact through the arts.";
+            document.getElementById("slide4-title").textContent = isEnglish ? "Creaciones de Arte Personalizadas para Cada Comunidad" : "Custom Art Creations for Every Community";
+            document.getElementById("slide4-content").textContent = isEnglish ? "Liderado por Edlin G. Lopez, nuestras comisiones abarcan diversas formas artísticas, enfocándose en la accesibilidad y representación comunitaria." : "Led by Edlin G. Lopez, our commissions span various artistic forms, focusing on accessibility and community representation.";
+            document.getElementById("learn-more-title").textContent = isEnglish ? "Más Información" : "Learn More";
+            document.getElementById("learn-more-email").textContent = isEnglish ? "Contáctame por Correo" : "Email Me";
+        });
+
+        function scrollToSlide(slideIndex) {
+            const slideWidth = document.querySelector(".slides").clientWidth;
+            document.querySelector(".slides").scrollTo({
+                left: slideWidth * slideIndex,
+                behavior: "smooth"
+            });
+            updateActiveLink(slideIndex);
+        }
+
+        function updateActiveLink(currentIndex) {
+            const links = document.querySelectorAll(".header-links a");
+            links.forEach((link, index) => {
+                link.classList.toggle("active", index === currentIndex - 1);
+            });
+        }
+
+        document.getElementById("slides").addEventListener("scroll", () => {
+            const slides = document.querySelectorAll(".slide");
+            slides.forEach((slide, index) => {
+                const slidePosition = slide.getBoundingClientRect();
+                if (slidePosition.left >= 0 && slidePosition.left < window.innerWidth) {
+                    updateActiveLink(index);
+                }
+            });
+        });
+
+        function openGallery(imgUrl) {
+            const galleryModal = document.getElementById("gallery-modal");
+            const galleryImage = document.getElementById("gallery-image");
+            galleryImage.src = imgUrl;
+            galleryModal.style.display = "flex";
+        }
+
+        function closeGallery() {
+            const galleryModal = document.getElementById("gallery-modal");
+            galleryModal.style.display = "none";
+        }
+    </script>
+</body>
+</html>
+
