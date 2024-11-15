@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lina Lupita Arts</title>
+
+    <script>
+    if (/Mobi|Android/i.test(navigator.userAgent)) {
+        window.location.href = "https://linalupita.com/mobile.html";
+    }
+</script>
     <style>
         /* Base styling and themes */
         :root {
@@ -452,6 +458,12 @@
         });
     }
 </script>
+<script type="text/javascript">
 
+if (screen.width <= 699) {
+document.location = "linalupita.com/mobile";
+}
+
+</script>
 </body>
 </html>
